@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <script type="text/javascript" src="{% static 'easyuitest/jquery.min.js' %}" charset="utf-8"></script>
+    <script type="text/javascript" src="{% static 'easyuitest/jquery.easyui.min.js' %}" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'easyuitest/easyui.css' %}">
+    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
+</head>
+<body>
+    <h1 class="text_title">数据源管理</h1>
+    <div class="my-form">
+        <!--<table id="dg" title="数据源管理" class="easyui-datagrid" style="width:640px;height:600px;"-->
+         <!--url="/easyuitest/readurl/"toolbar="#toolbar"pagination="true"rownumbers="true" fitColumns="true" singleSelect="true"-->
+        <!--data-options="remoteSort:false,multiSort:true">-->
+            <!--<thead>-->
+            <!--<tr>-->
+                <!--&lt;!&ndash;<th data-option="field:'url_source',width:80">名称</th>&ndash;&gt;-->
+                <!--&lt;!&ndash;<th field="url_source"width="80">名称</th>&ndash;&gt;-->
+                <!--&lt;!&ndash;<th field="link"width="80">URL</th>&ndash;&gt;-->
+                <!--&lt;!&ndash;<th field="creator"width="80">创建人</th>&ndash;&gt;-->
+                <!--&lt;!&ndash;<th field="createTime"width="80">创建时间</th>&ndash;&gt;-->
+                <!--&lt;!&ndash;<th field="timeconfig"width="80">定时采集</th>&ndash;&gt;-->
+                <!--&lt;!&ndash;<th field="isValid"width="100">是否有效</th>&ndash;&gt;-->
+                <!--<th data-options="field:'url_source',width:80">名称</th>-->
+                <!--<th data-options="field:'link',width:80">URL</th>-->
+                <!--<th data-options="field:'creator',width:80">创建人</th>-->
+                <!--<th data-options="field:'createTime',width:80">创建时间</th>-->
+                <!--<th data-options="field:'timeconfig',width:80">定时采集</th>-->
+                <!--<th data-options="field:'isValid',width:80">是否有效</th>-->
+                <!--&lt;!&ndash;<th data-options="field:'operate',width:80&ndash;&gt;-->
+                 <!--&lt;!&ndash;formatter:function(value,row){&ndash;&gt;-->
+                      <!--&lt;!&ndash;var btn='<a href='javascript:void(0)'name='opera'class='easyui-linkbutton'onclick='params_edit()'></a>';&ndash;&gt;-->
+                      <!--&lt;!&ndash;return btn;&ndash;&gt;-->
+                 <!--&lt;!&ndash;}&ndash;&gt;-->
+                 <!--&lt;!&ndash;onLoadSuccess:function(data){&ndash;&gt;-->
+                     <!--&lt;!&ndash;$('a[name='opera']').linkbutton({text:'采集参数',plain:true,iconCls:'icon-more'});&ndash;&gt;-->
+                 <!--&lt;!&ndash;}&ndash;&gt;-->
+                 <!--&lt;!&ndash;">操作</th>&ndash;&gt;-->
+            <!--</tr>-->
+            <!--</thead>-->
+        <!--</table>-->
+        <table id="dg"></table>
+        <script type="text/javascript"charset=utf-8>
+                $('#dg').datagrid({
+                    url:"/easyuitest/readurl/",
+                    title:"数据源管理",
+                    width:660,
+                    height:600,
+                    // toolbar:'#tb',
+                    toolbar:[
+                        {iconCls: 'icon-add', href:"javascript:void(0)", plain:true, width:100, text:'新增条目',
+                            handler:function () {
+                                newItem()
+                            }},
+                        {iconCls: 'icon-edit', href:"javascript:void(0)", plain:true, width:100, text:'编辑条目',
+                            handler:function () {
+                                editItem()
+                            }},
+                        {iconCls: 'icon-remove', href:"javascript:void(0)", plain:true, width:100, text:'删除条目',
+                            handler:function () {
+                                destroyItem()
+                            }},
+                        {iconCls: 'icon-ok', href:"javascript:void(0)", plain:true, width:100, text:'开始采集',
+                            handler:function () {}
+                        }
+                    ],
+                    pagination:true,
+                    rownumbers:true,
+                    fitColumns:true,
+                    singleSelect:true,
+                    columns:[[
+                        {field:'url_source',width:80,title:'名称'},
+                        {field:'link',width:80,title:'URL'},
+                        {field:'creator',width:80,title:'创建人'},
+                        {field:'createTime',width:80,title:'创建时间'},
+                        {field:'timeconfig',width:80,title:'定时采集'},
+                        {field:'isValid',width:80,title:'是否有效'},
+                        {field:'operate',title:'操作',width:80,
+                             formatter:function(value,row,index){
+                                 var btn='<a href="javascript:void(0)"name="opera"class="easyui-linkbutton"onclick="param_edit()"> </a>';
+                                 return btn;
+                             }
+                        }
+                    ]],
+                    onLoadSuccess:function(data){
+                        $("a[name='opera']").linkbutton({text:'采集参数',plain:true,iconCls:'icon-add'});
+                    }
+                })
+        </script>
+    </div>
+
+    <!--<div id="tb">-->
+            <!--<a href="javascript:void(0)"class="easyui-linkbutton" iconCls="icon-add" plain="true" onclick="newItem()">新增条目</a>-->
+            <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editItem()">编辑条目</a>-->
+            <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyItem()">删除条目</a>-->
+            <!--<a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" plain="true" onclick="">开始采集</a>-->
+    <!--</div>-->
+
+    <div id="dlg"class="easyui-dialog"style="width:400px"closed="true"buttons="#dlg-buttons">
+        <form id="fm"method="post" novalidate style="margin:0;padding:20px 50px">
+            <div style="margin-bottom:20px;font-size:20px;border-bottom:1px solid #ccc">编辑详情</div>
+            <div style="margin-bottom: 10px">
+    			<div>名称：</div>
+    			<input name="url_source" class="easyui-textbox" required="true"style="width:80px;height:32px">
+    		</div>
+            <div style="margin-bottom: 10px">
+                <div>URL：</div>
+                <input name="link" class="easyui-textbox" required="true"  style="width:80px;height:32px">
+            </div>
+            <div style="margin-bottom: 10px">
+                <div>创建人：</div>
+                <input name="creator" class="easyui-textbox" required="true"  style="width:80px;height:32px">
+            </div>
+            <div style="margin-bottom:20px">
+			    <div>创建时间：</div>
+			    <input name="createTime"class="easyui-textbox" required="true"style="width:80px;height:32px">
+		    </div>
+            <div style="margin-bottom: 20px">
+                <div>定时采集：</div>
+                <input name="timeconfig" class="easyui-textbox" required="true" style="width:80px;height: 32px">
+            </div>
+            <div style="margin-bottom: 10px">
+                <div>是否有效：</div>
+                <input name="isValid" class="easyui-textbox" required="true"  style="width:80px;height:32px">
+            </div>
+        </form>
+    </div>
+    <div id="dlg-buttons">
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-ok" onclick="saveItem()" style="width:50px ">保存</a>
+        <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-cancel" onclick="javascript:$('#dlg').dialog('close')" style="width:50px" >取消</a>
+    </div>
+    <div id="param_dlg"class="easyui-dialog"style="width:400px"closed="true"buttons=""closable="true">
+         参数编辑
+    </div>
+    <script type="text/javascript"charset="UTF-8">
+        var url;
+        function param_edit(){
+            $('#param_dlg').dialog('open').dialog('center').dialog('setTitle','参数选择')
+        }
+        function newItem(){
+            $('#dlg').dialog('open').dialog('center').dialog('setTitle','编辑详情');
+            $('#fm').form('clear');
+            url='/easyuitest/url_start/';
+        }
+        function editItem() {
+            var row = $('#dg').datagrid('getSelected');
+            console.log(row);
+            if (row) {
+                $('#dlg').dialog('open').dialog('center').dialog('setTitle', '编辑条目');
+                $('#fm').form('load', row);
+                url='/easyuitest/edit_url/'+row.id;
+            }
+        }
+        function saveItem(){
+            $('#fm').form(
+                'submit',{
+                    url:url,
+                    onsubmit:function(){
+                        return $(this).form('validate');
+                    },
+                    success:function (result) {
+                        if(result=="save"){
+                            $('#dlg').dialog('close');
+                            $('#dg').datagrid('reload');
+                        }else
+                         if(result.errorMsg){
+                             $.message.show({
+                                 title:'Error',
+                                 msg:result.errorMsg
+                             });
+                         }else{
+                             $('#dlg').dialog('close');
+                             $('#dg').datagrid('reload');
+                         }
+                    }
+                }
+            );
+        }
+        function destroyItem() {
+            var row= $('#dg').datagrid('getSelected');
+            console.log(row.id);
+            if(row){
+                $.messager.confirm('再次确认','删除该条目？',function(r){
+                    if(r){
+                        $.ajax({
+                            url:'/easyuitest/remove_url/',
+                            type:'POST',
+                            data:{'id':row.id},
+                            success:function (data){
+                                if(data=="REMOVE"){
+                                    $('#dg').datagrid('reload');
+                                }
+                            },
+                            error:function(data){alert("error")}
+                        });
+                    }
+                });
+            }
+        }
+    </script>
+</body>
+
+</html>

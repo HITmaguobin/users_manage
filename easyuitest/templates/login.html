@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    {% load static %}
+    <script type="text/javascript" src="{% static 'easyuitest/jquery.min.js' %}" charset="utf-8"></script>
+    <script type="text/javascript" src="{% static 'easyuitest/jquery.easyui.min.js' %}" charset="utf-8"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'easyuitest/easyui.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'easyuitest/icon.css' %}">
+</head>
+<body>
+<div id="login"class="easyui-dialog" style="width:250px;height:150px;" data-options="title:'用户登录',modal:true,
+buttons:[{
+    text:'登录',
+    handler:function(){}
+},{
+    text:'close',
+    handler:function(){}
+}]">
+    <form id="login_msg"method="post">
+    <table>
+        <tr>
+            <th>用户名</th>
+            <td><input name="name"/></td>
+        </tr>
+        <tr>
+            <th>密码</th>
+            <td><input name="password"type="password"/></td>
+        </tr>
+    </table>
+    </form>
+</div>
+</body>
+</html>
